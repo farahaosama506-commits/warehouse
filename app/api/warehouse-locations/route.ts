@@ -11,9 +11,7 @@ export async function GET(request: Request) {
       .select(`*, warehouse:warehouse_id (name)`)
       .order('created_at', { ascending: false });
 
-    if (warehouseId) {
-      query = query.eq('warehouse_id', warehouseId);
-    }
+    if (warehouseId) query = query.eq('warehouse_id', warehouseId);
 
     const { data, error } = await query;
     if (error) throw error;
@@ -25,7 +23,7 @@ export async function GET(request: Request) {
     }));
 
     return NextResponse.json(locations);
-  } catch (error: any) {
+  } catch {
     return NextResponse.json([]);
   }
 }
@@ -37,14 +35,9 @@ export async function POST(request: Request) {
 
     const { data, error } = await supabase
       .from('warehouse_locations')
-      .insert([{
-        warehouse_id,
-        section,
-        shelf,
-        col: column,
-        cell,
-        capacity: capacity || 100,
-        current_occupancy: 0,
+      .insert([{ 
+        warehouse_id, section, shelf, col: column, cell, 
+        capacity: capacity || 100, current_occupancy: 0,
         storage_type: storage_type || 'dry'
       }])
       .select()
