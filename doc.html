@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>توثيق نظام إدارة المستودعات WMS</title>
+    <style>
+        :root {
+            --primary: #4a7c59;
+            --text: #1a1a1a;
+            --bg: #fafafa;
+            --border: #e8e8e8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        nav {
+            background: #1a1a1a;
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        nav a:hover { color: #4a7c59; }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .hero {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .hero h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .hero p { opacity: 0.8; font-size: 1.1em; }
+        h2 {
+            color: var(--primary);
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+        h3 { color: #333; margin: 25px 0 10px; }
+        .card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: right;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background: #f5f5f5;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        td { font-size: 14px; }
+        code {
+            background: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge-green { background: #e8f5e9; color: #4a7c59; }
+        .badge-blue { background: #e3f2fd; color: #1976d2; }
+        .badge-red { background: #ffebee; color: #c62828; }
+        .badge-orange { background: #fff3e0; color: #e65100; }
+        .badge-purple { background: #f3e5f5; color: #7b1fa2; }
+        .highlight {
+            background: #fffde7;
+            border-right: 4px solid #ffc107;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        footer {
+            background: #1a1a1a;
+            color: #888;
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="#overview">نظرة عامة</a>
+    <a href="#installation">التثبيت</a>
+    <a href="#features">المميزات</a>
+    <a href="#roles">الصلاحيات</a>
+    <a href="#api">API</a>
+    <a href="#database">قاعدة البيانات</a>
+    <a href="#tech">التقنيات</a>
+</nav>
+
+<div class="hero">
+    <h1>📦 نظام إدارة المستودعات WMS</h1>
+    <p>نظام متكامل لإدارة المستودعات والمخزون والحركات مع تقارير متقدمة وإشعارات ذكية</p>
+</div>
+
+<div class="container">
+
+    <!-- نظرة عامة -->
+    <h2 id="overview">📋 نظرة عامة</h2>
+    <p>نظام إدارة مستودعات (WMS) مبني باستخدام <strong>Next.js 16</strong> + <strong>TypeScript</strong> + <strong>Supabase</strong>. يوفر إدارة كاملة للمنتجات والمستودعات والأوامر مع نظام صلاحيات متقدم وتقارير تحليلية وتصدير PDF.</p>
+
+    <div class="card">
+        <h3>👥 الأدوار الوظيفية</h3>
+        <table>
+            <tr><th>الدور</th><th>الصلاحيات</th></tr>
+            <tr><td><span class="badge badge-green">مدير عام</span></td><td>كل الصلاحيات - وصول كامل للنظام</td></tr>
+            <tr><td><span class="badge badge-blue">مشرف مستودع</span></td><td>المنتجات، الأوامر، المستودعات، التقارير (عرض فقط)</td></tr>
+            <tr><td><span class="badge badge-orange">عامل مستودع</span></td><td>عرض المنتجات، إنشاء أوامر فقط</td></tr>
+            <tr><td><span class="badge badge-purple">مدير نظام</span></td><td>المنتجات، المستودعات، المستخدمين، الإعدادات</td></tr>
+            <tr><td><span class="badge badge-red">مستثمر</span></td><td>قراءة فقط - التقارير والمستودعات</td></tr>
+        </table>
+    </div>
+
+    <!-- التثبيت -->
+    <h2 id="installation">🚀 التثبيت والتشغيل</h2>
+
+    <h3>المتطلبات</h3>
+    <ul>
+        <li>Node.js 18+</li>
+        <li>حساب Supabase</li>
+    </ul>
+
+    <h3>خطوات التثبيت</h3>
+    <div class="highlight">
+        <code>git clone https://github.com/farahaosama506-commits/warehouse.git</code><br>
+        <code>cd warehouse</code><br>
+        <code>npm install</code>
+    </div>
+
+    <h3>إعداد قاعدة البيانات</h3>
+    <ol>
+        <li>أنشئ مشروع في <a href="https://supabase.com">Supabase</a></li>
+        <li>اذهب إلى SQL Editor وشغّل ملف <code>schema.sql</code></li>
+        <li>أنشئ ملف <code>.env.local</code>:</li>
+    </ol>
+    <div class="highlight">
+        <code>NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co</code><br>
+        <code>NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key</code><br>
+        <code>SUPABASE_SERVICE_ROLE_KEY=your-service-role-key</code>
+    </div>
+
+    <h3>التشغيل</h3>
+    <div class="highlight"><code>npm run dev</code></div>
+    <p>افتح <a href="http://localhost:3000">http://localhost:3000</a></p>
+
+    <h3>بيانات الدخول الافتراضية</h3>
+    <table>
+        <tr><th>البريد</th><td><code>admin</code></td></tr>
+        <tr><th>كلمة المرور</th><td><code>123456</code></td></tr>
+        <tr><th>الدور</th><td>مدير عام</td></tr>
+    </table>
+
+    <!-- المميزات -->
+    <h2 id="features">✨ المميزات</h2>
+
+    <div class="card">
+        <h3>📦 إدارة المنتجات</h3>
+        <ul>
+            <li>إضافة، تعديل، حذف المنتجات</li>
+            <li>باركود للوصول السريع</li>
+            <li>تصنيفات وفئات</li>
+            <li>تتبع تواريخ الصلاحية</li>
+            <li>تحديد الحد الأدنى والأقصى للمخزون</li>
+            <li>حالات المنتج: نشط، غير نشط، نافذ المخزون، متوقف</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>🏗️ المستودعات والمواقع</h3>
+        <ul>
+            <li>إدارة مستودعات متعددة</li>
+            <li>أنواع تخزين: جاف، مبرد، تجميد، مواد خطرة</li>
+            <li>مواقع تخزين هرمية: قسم ← رف ← عمود ← خلية</li>
+            <li>حساب السعة المستخدمة تلقائياً من المنتجات</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>📋 الأوامر والحركات</h3>
+        <ul>
+            <li>أمر استلام - إضافة مخزون</li>
+            <li>أمر تجهيز - صرف مخزون</li>
+            <li>نقل داخلي - نقل بين المستودعات</li>
+            <li>بنود متعددة لكل أمر</li>
+            <li>تحديث المخزون تلقائياً</li>
+            <li>سجل الحركات اليومية</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>📊 التقارير (8 تقارير)</h3>
+        <table>
+            <tr><th>التقرير</th><th>الوصف</th></tr>
+            <tr><td>قيمة المخزون</td><td>الأصول المجمدة في المستودعات</td></tr>
+            <tr><td>سرعة البيع</td><td>الأكثر مبيعاً مقابل الراكد</td></tr>
+            <tr><td>إنتاجية الموظفين</td><td>عدد الأوامر المنجزة لكل عامل</td></tr>
+            <tr><td>المهام المعلقة</td><td>أوامر الاستلام التي لم تصل</td></tr>
+            <tr><td>سجل التدقيق</td><td>من قام بأي عملية ومتى</td></tr>
+            <tr><td>صلاحية المنتجات</td><td>المنتجات التي قاربت على الانتهاء</td></tr>
+            <tr><td>التكاليف اللوجستية</td><td>نقل - تخزين - استلام</td></tr>
+            <tr><td>تقرير الخسائر</td><td>منتجات تالفة ومنتهية الصلاحية</td></tr>
+        </table>
+        <p><strong>تصدير:</strong> جميع التقارير تدعم تصدير PDF</p>
+    </div>
+
+    <div class="card">
+        <h3>🔔 الإشعارات الذكية</h3>
+        <ul>
+            <li>تنبيهات المخزون المنخفض (حسب النسبة المحددة في الإعدادات)</li>
+            <li>تنبيهات اقتراب الصلاحية (حسب عدد الأيام المحددة)</li>
+            <li>تحليل سلوك المستخدمين (محاولات دخول مشبوهة، حذف جماعي)</li>
+            <li>اكتشاف الأخطاء المتكررة في العمليات</li>
+            <li>تقارير أسبوعية تلقائية</li>
+            <li>تفعيل/تعطيل كل ميزة بشكل منفصل</li>
+        </ul>
+    </div>
+
+    <!-- الصلاحيات -->
+    <h2 id="roles">🔐 نظام الصلاحيات</h2>
+    <div class="card">
+        <table>
+            <tr><th>الوحدة</th><th>مدير عام</th><th>مشرف مستودع</th><th>عامل مستودع</th><th>مدير نظام</th><th>مستثمر</th></tr>
+            <tr><td>لوحة التحكم</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+            <tr><td>المنتجات</td><td>➕✏️🗑️</td><td>➕✏️</td><td>👁️</td><td>➕✏️🗑️</td><td>👁️</td></tr>
+            <tr><td>المستودعات</td><td>➕✏️🗑️</td><td>➕✏️</td><td>👁️</td><td>➕✏️🗑️</td><td>👁️</td></tr>
+            <tr><td>الأوامر</td><td>➕✏️🗑️</td><td>➕✏️</td><td>➕</td><td>👁️</td><td>👁️</td></tr>
+            <tr><td>التقارير</td><td>✅</td><td>👁️</td><td>❌</td><td>👁️</td><td>👁️</td></tr>
+            <tr><td>المستخدمين</td><td>➕✏️🗑️</td><td>❌</td><td>❌</td><td>➕✏️🗑️</td><td>❌</td></tr>
+            <tr><td>العملاء</td><td>➕✏️🗑️</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td></tr>
+            <tr><td>الإعدادات</td><td>✅</td><td>❌</td><td>❌</td><td>✅</td><td>❌</td></tr>
+        </table>
+        <p style="font-size:12px;color:#888;margin-top:10px">👁️ عرض | ➕ إنشاء | ✏️ تعديل | 🗑️ حذف | ❌ لا يملك صلاحية</p>
+    </div>
+
+    <!-- API -->
+    <h2 id="api">🔌 API Routes</h2>
+    <div class="card">
+        <table>
+            <tr><th>المسار</th><th>الطريقة</th><th>الوصف</th></tr>
+            <tr><td><code>/api/products</code></td><td>GET, POST</td><td>جلب وإضافة المنتجات</td></tr>
+            <tr><td><code>/api/products/[id]</code></td><td>PUT, DELETE</td><td>تعديل وحذف منتج</td></tr>
+            <tr><td><code>/api/warehouses</code></td><td>GET, POST</td><td>جلب وإضافة المستودعات</td></tr>
+            <tr><td><code>/api/warehouses/[id]</code></td><td>PUT, DELETE</td><td>تعديل وحذف مستودع</td></tr>
+            <tr><td><code>/api/warehouse-locations</code></td><td>GET, POST</td><td>جلب وإضافة مواقع التخزين</td></tr>
+            <tr><td><code>/api/orders</code></td><td>GET, POST</td><td>جلب وإنشاء الأوامر</td></tr>
+            <tr><td><code>/api/orders/[id]</code></td><td>PUT, DELETE</td><td>تحديث حالة الأمر وإلغائه</td></tr>
+            <tr><td><code>/api/daily-movements</code></td><td>GET</td><td>جلب الحركات اليومية</td></tr>
+            <tr><td><code>/api/customers</code></td><td>GET, POST</td><td>جلب وإضافة العملاء</td></tr>
+            <tr><td><code>/api/customers/[id]</code></td><td>PUT, DELETE</td><td>تعديل وحذف عميل</td></tr>
+            <tr><td><code>/api/customers/[id]/statement</code></td><td>GET</td><td>كشف حساب العميل</td></tr>
+            <tr><td><code>/api/users</code></td><td>GET, POST</td><td>جلب وإضافة المستخدمين</td></tr>
+            <tr><td><code>/api/users/[id]</code></td><td>PUT, DELETE</td><td>تعديل وتعطيل مستخدم</td></tr>
+            <tr><td><code>/api/settings</code></td><td>GET, POST</td><td>جلب وحفظ الإعدادات</td></tr>
+            <tr><td><code>/api/reports/*</code></td><td>GET</td><td>8 تقارير مختلفة</td></tr>
+            <tr><td><code>/api/notifications/check</code></td><td>GET</td><td>فحص الإشعارات الذكية</td></tr>
+        </table>
+    </div>
+
+    <!-- قاعدة البيانات -->
+    <h2 id="database">🗄️ قاعدة البيانات</h2>
+    <div class="card">
+        <h3>الجداول الرئيسية (12 جدول)</h3>
+        <table>
+            <tr><th>الجدول</th><th>الوصف</th></tr>
+            <tr><td><code>users</code></td><td>المستخدمين والأدوار</td></tr>
+            <tr><td><code>roles</code></td><td>الأدوار الوظيفية</td></tr>
+            <tr><td><code>permissions</code></td><td>الصلاحيات حسب الدور</td></tr>
+            <tr><td><code>products</code></td><td>المنتجات والمخزون</td></tr>
+            <tr><td><code>categories</code></td><td>فئات المنتجات</td></tr>
+            <tr><td><code>measurement_units</code></td><td>وحدات القياس</td></tr>
+            <tr><td><code>warehouses</code></td><td>المستودعات</td></tr>
+            <tr><td><code>warehouse_locations</code></td><td>مواقع التخزين</td></tr>
+            <tr><td><code>orders</code></td><td>الأوامر</td></tr>
+            <tr><td><code>order_items</code></td><td>بنود الأوامر</td></tr>
+            <tr><td><code>daily_movements</code></td><td>الحركات اليومية</td></tr>
+            <tr><td><code>customers</code></td><td>العملاء والموردين</td></tr>
+            <tr><td><code>audit_logs</code></td><td>سجل التدقيق</td></tr>
+            <tr><td><code>settings</code></td><td>الإعدادات</td></tr>
+            <tr><td><code>logistics_costs</code></td><td>التكاليف اللوجستية</td></tr>
+        </table>
+    </div>
+
+    <!-- التقنيات -->
+    <h2 id="tech">🛠️ التقنيات المستخدمة</h2>
+    <div class="card">
+        <table>
+            <tr><th>التقنية</th><th>الاستخدام</th></tr>
+            <tr><td>Next.js 16</td><td>Framework رئيسي مع App Router</td></tr>
+            <tr><td>TypeScript</td><td>لغة البرمجة</td></tr>
+            <tr><td>Supabase</td><td>قاعدة البيانات والمصادقة</td></tr>
+            <tr><td>Bootstrap 5</td><td>إطار CSS للتنسيق</td></tr>
+            <tr><td>Framer Motion</td><td>Animations</td></tr>
+            <tr><td>Zod</td><td>التحقق من صحة البيانات</td></tr>
+            <tr><td>jsPDF</td><td>تصدير التقارير PDF</td></tr>
+            <tr><td>React Icons</td><td>الأيقونات</td></tr>
+        </table>
+    </div>
+
+    <!-- الأمان -->
+    <h2 id="security">🛡️ الأمان</h2>
+    <div class="card">
+        <ul>
+            <li><strong>Rate Limiting:</strong> تحديد عدد المحاولات (5 محاولات تسجيل دخول في الدقيقة)</li>
+            <li><strong>Zod Validation:</strong> التحقق من جميع المدخلات قبل المعالجة</li>
+            <li><strong>صلاحيات:</strong> حماية كل صفحة وAPI حسب دور المستخدم</li>
+            <li><strong>سجل التدقيق:</strong> تسجيل جميع العمليات مع IP وتاريخ</li>
+            <li><strong>تخزين آمن:</strong> كلمات المرور مخزنة بتشفير</li>
+        </ul>
+    </div>
+
+</div>
+
+<footer>
+    <p>نظام إدارة المستودعات WMS © 2025 - أنشأه Farah Osama</p>
+    <p style="margin-top:5px"><a href="https://github.com/farahaosama506-commits/warehouse" style="color:#4a7c59">GitHub Repository</a></p>
+</footer>
+
+</body>
+</html>
