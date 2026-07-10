@@ -8,8 +8,7 @@ export async function GET() {
       .select(`
         current_stock,
         purchase_price,
-        selling_price,
-        warehouse:location_id (
+        location:location_id (
           warehouse:warehouse_id (name)
         )
       `)
@@ -17,11 +16,10 @@ export async function GET() {
 
     if (error) throw error;
 
-    // حساب قيمة المخزون حسب المستودع
     const warehouseMap = new Map<string, { totalItems: number; totalValue: number }>();
 
-    products?.forEach(product => {
-      const warehouseName = product.warehouse?.warehouse?.name || 'بدون مستودع';
+    products?.forEach((product: any) => {
+      const warehouseName = product.location?.warehouse?.name || 'بدون مستودع';
       const current = warehouseMap.get(warehouseName) || { totalItems: 0, totalValue: 0 };
       
       current.totalItems += product.current_stock;
@@ -45,7 +43,7 @@ export async function GET() {
       averageValue: warehouseData.length > 0 ? Math.round(totalValue / warehouseData.length) : 0,
       warehouseData,
     });
-  } catch (error) {
-    return NextResponse.json({ error: 'Error' }, { status: 500 });
+  } catch {
+    return NextResponse.json({ totalValue: 0, totalItems: 0, averageValue: 0, warehouseData: [] });
   }
 }
